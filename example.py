@@ -2,9 +2,6 @@ from random import randint
 from time import strftime
 from traceback import print_exc
 
-print "please run --> "
-print "from example import *"
-
 # main class has common methods and attributes
 class Compute(object):
 
