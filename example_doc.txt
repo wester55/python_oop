@@ -6,7 +6,7 @@
     d. virt_ip() method
 3. Create parent class Compute. Define above attributes and methods. For virt_ip() method make conditional check to throw error if called from child named "Physical".
     When printing strings use %s format to get rid of quotes.
-4. Create child classes inheriting parent Compute class. Each child class will have class variable initilized with 0 and incremented each time child instance created:
+4. Create child classes inheriting parent Compute class. Each child class will have class variable initialized with 0 and incremented each time child instance created:
     a. Class Container. We define read-only attribute 'status' by defining property which print _status variable. When instance initialized _status set to default value "stopped".
         We define start() and stop() methods which used to set _status variable value. This is not perfect since someone could set _status value and then status will print this.
     b. Class VM. We define snapshot() method which use strftime() method of time module to set current date and time in _snapshot_date variable. Property attribute snapshot_date will print
@@ -17,5 +17,3 @@
         We override built-in method __setattr__. We check if attribute being set has name "bios_boot_priority". If yes then we make sure it's value is in allowed values list.
         We set class variable _bios_boot_priority to value user wants to set. In case value is not in list of allowed values we raise custom EInvalidBootObject and catch it in exception.
         Method print_exc() of custom EInvalidBootObject class prints modified traceback message we want.
-
-
