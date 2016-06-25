@@ -15,6 +15,8 @@ class Compute(object):
         print echoinput
 
     def virt_ip(self):
+        if self.__class__.__name__ == 'Physical':
+            raise AttributeError('no such method')
         return randint(1,100)
 
 class Container(Compute):
@@ -45,15 +47,12 @@ class VM(Compute):
         VM.instance_count += 1
 
     def snapshot(self):
-        self._snapshot_date = strftime("%H:%M:%S")
+        self._snapshot_date = strftime("%Y-%m-%d %H:%M:%S")
         print '%s' % ("snapshot taken")
 
     @property
     def snapshot_date(self):
-        return self._snapshot_date
-
-    def __getattribute__(self, name):
-        print '%s' % (super(VM, self).__getattribute__(name))
+        print '%s' % (self._snapshot_date)
 
 class EInvalidBootObject(Exception):
     def __init__(self):
@@ -64,24 +63,22 @@ class Physical(Compute):
 
     instance_count = 0
 
+    @property
+    def bios_boot_priority(self):
+        print '%s' % (self._bios_boot_priority)
+
     def __init__(self):
         Physical.instance_count += 1
-        self.bios_boot_priority = 'hdd'
+        self._bios_boot_priority = 'hdd'
 
     def __setattr__(self, name, value):
         try:
             if name == 'bios_boot_priority':
                 if value not in ['usb', 'cd', 'hdd']:
                     raise EInvalidBootObject
-            super(Physical, self).__setattr__(name, value)
+            super(Physical, self).__setattr__("_bios_boot_priority", value)
         except EInvalidBootObject:
             print_exc()
-
-    def __getattribute__(self, name):
-        if name in ['virt_ip']:
-            raise AttributeError('no such method')
-        else:
-            print '%s' % (super(Physical, self).__getattribute__(name))
 
 
 
